@@ -7,45 +7,39 @@
     @if (session('deleted'))
         <div class="alert alert-warning">{{ session('deleted') }}</div>
     @endif
-    <div class="row">
-        <div class="col">
-            <table class="table table-dark table-hover">
-                <thead>
-                    <tr>
-                    <th class="text-center" scope="col">#</th>
-                    <th class="text-center" scope="col">User</th>
-                    <th class="text-center" scope="col">Title</th>
-                    <th class="text-center" scope="col">Slug</th>
-                    <th class="text-center" scope="col">Created At</th>
-                    <th class="text-center" scope="col">Updated At</th>
-                    <th class="text-center" scope="col" colspan="3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($posts as $post)
-                        <tr data-id="{{ $post->slug }}">
-                            <th class="text-center" scope="row">{{ $post->id }}</th>
-                            <td>{{ $post->user->name }}</td>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ $post->slug }}</td>
-                            <td>{{ date('d/m/Y', strtotime($post->created_at)) }}</td>
-                            <td>{{ date('d/m/Y', strtotime($post->updated_at)) }}</td>
-                            <td>
-                                <a class="btn btn-primary" href="{{ route('admin.posts.show', $post->slug) }}">View</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-primary" href="{{ route('admin.posts.edit', $post->slug) }}">Edit</a>
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-danger btn-delete" >Delete</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    @foreach ($posts as $post)
+    <div class="container posts-content">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <h2>{{ $post->title }}</h2>
+                    <div class="media mb-3">
+                      <img src="{{ $post->media }}" class="d-block ui-w-40 img-fluid" alt="">
+                      <div class="media-body ml-3">
+                        {{ $post->user->name }}
+                        <div class="text-muted small">{{date_format($post->created_at, 'd/m/y')}}</div>
+                      </div>
+                    </div>
+
+                    <p>
+                      {{ $post->content }}
+                    </p>
+                    <a href="javascript:void(0)" class="ui-rect ui-bg-cover" style="background-image: url('https://bootdey.com/img/Content/avatar/avatar3.png');"></a>
+                  </div>
+                  <div class="card-footer d-flex">
+                    <a href="javascript:void(0)" class="d-inline-block text-muted me-3">
+                        <strong>{{ $post->likes }}</strong> Likes</small>
+                    </a>
+                    <a href="javascript:void(0)" class="d-inline-block text-muted me-3">
+                        <strong>{{ $post->comments }}</strong> Comments</small>
+                    </a>
+                  </div>
+                </div>
+            </div>
         </div>
     </div>
-
+    @endforeach
     {{ $posts->links() }}
 
     <section id="confirmation-overlay" class="overlay d-none">

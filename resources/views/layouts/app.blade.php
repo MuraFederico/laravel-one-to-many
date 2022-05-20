@@ -54,6 +54,12 @@
                         <li class="nav-item me-auto">
                             <a class="nav-link" href="{{ route('admin.posts.index') }}">Posts</a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{ route('admin.posts.myPosts') }}">My Posts</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{{ route('admin.posts.create') }}">New Post</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
@@ -71,9 +77,6 @@
                                 </form>
                             </div>
                         </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ route('admin.posts.create') }}">New Post</a>
-                            </li>
                         @endguest
                     </ul>
                 </div>

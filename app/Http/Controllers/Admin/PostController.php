@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -24,11 +25,20 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(50);
+        $posts = Post::paginate(5);
 
         // dd($posts);
 
         return view('admin.posts.index', compact('posts'));
+    }
+
+    public function myIndex()
+    {
+        $posts = Post::where('user_id', Auth::user()->id)->paginate(50);
+
+        // dd(Auth::user()->id);
+
+        return view('admin.posts.myIndex', compact('posts'));
     }
 
     /**
@@ -58,7 +68,7 @@ class PostController extends Controller
 
         $request->validate($validators);
 
-        $post = Post::create($request->all());
+        $post = Post::create($request->all() + ['user_id' => Auth::user()->id ]);
 
        return redirect()->route('admin.posts.show', $post->slug);
     }
@@ -82,6 +92,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if (Auth::user()->id !== $post->user_id) abort(403);
+
         return view('admin.posts.edit', compact('post'));
     }
 
@@ -94,6 +106,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        if (Auth::user()->id !== $post->user_id) abort(403);
+
         $validators = [
             'title'     => 'required|max:100',
             'content'   => 'required',
@@ -120,6 +134,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if (Auth::user()->id !== $post->user_id) abort(403);
+
         $post->delete();
 
         return redirect()->route('admin.posts.index');

@@ -9,9 +9,6 @@
             <div class="col">
                 <form action="{{ route('admin.posts.store') }}" method="post">
                     @csrf
-                    <div class="d-none">
-                        <input type="text" class="form-control" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
-                    </div>
                     <div class="mb-3">
                         <label for="title" class="form-label">{{ __('Title') }}</label>
                         <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">

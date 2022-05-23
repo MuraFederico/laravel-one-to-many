@@ -7,6 +7,10 @@
     @if (session('deleted'))
         <div class="alert alert-warning">{{ session('deleted') }}</div>
     @endif
+    <form method="GET" action="">
+
+
+    </form>
     @foreach ($posts as $post)
     <div class="container posts-content">
         <div class="row justify-content-center">
@@ -19,6 +23,7 @@
                       <div class="media-body ml-3">
                         {{ $post->user->name }}
                         <div class="text-muted small">{{date_format($post->created_at, 'd/m/y')}}</div>
+                        <div class="text-muted small">{{$post->category->name}}</div>
                       </div>
                     </div>
 
